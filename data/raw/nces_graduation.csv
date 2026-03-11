@@ -1,0 +1,492 @@
+year,state_name,graduation_rate
+2010,Alabama,72.0
+2011,Alabama,75.0
+2012,Alabama,80.0
+2013,Alabama,86.3
+2014,Alabama,89.3
+2015,Alabama,87.1
+2016,Alabama,89.3
+2017,Alabama,90.0
+2018,Alabama,91.7
+2019,Alabama,90.6
+2010,Alaska,68.0
+2011,Alaska,70.0
+2012,Alaska,71.8
+2013,Alaska,71.1
+2014,Alaska,75.6
+2015,Alaska,76.1
+2016,Alaska,78.2
+2017,Alaska,78.5
+2018,Alaska,80.4
+2019,Alaska,79.1
+2010,Arizona,78.0
+2011,Arizona,76.0
+2012,Arizona,75.1
+2013,Arizona,75.7
+2014,Arizona,77.4
+2015,Arizona,79.5
+2016,Arizona,78.0
+2017,Arizona,78.7
+2018,Arizona,77.8
+2019,Arizona,77.3
+2010,Arkansas,81.0
+2011,Arkansas,84.0
+2012,Arkansas,84.9
+2013,Arkansas,86.9
+2014,Arkansas,84.9
+2015,Arkansas,87.0
+2016,Arkansas,88.0
+2017,Arkansas,89.2
+2018,Arkansas,87.6
+2019,Arkansas,88.8
+2010,California,76.0
+2011,California,79.0
+2012,California,80.4
+2013,California,81.0
+2014,California,82.0
+2015,California,83.0
+2016,California,82.7
+2017,California,83.0
+2018,California,84.5
+2019,California,84.3
+2010,Colorado,74.0
+2011,Colorado,75.0
+2012,Colorado,76.9
+2013,Colorado,77.3
+2014,Colorado,77.3
+2015,Colorado,78.9
+2016,Colorado,79.1
+2017,Colorado,80.8
+2018,Colorado,81.1
+2019,Colorado,81.9
+2010,Connecticut,83.0
+2011,Connecticut,85.0
+2012,Connecticut,85.5
+2013,Connecticut,87.0
+2014,Connecticut,87.2
+2015,Connecticut,87.4
+2016,Connecticut,87.9
+2017,Connecticut,88.4
+2018,Connecticut,88.5
+2019,Connecticut,88.3
+2010,Delaware,78.0
+2011,Delaware,80.0
+2012,Delaware,80.4
+2013,Delaware,87.0
+2014,Delaware,85.6
+2015,Delaware,85.5
+2016,Delaware,86.9
+2017,Delaware,86.9
+2018,Delaware,89.0
+2019,Delaware,89.0
+2010,Florida,71.0
+2011,Florida,75.0
+2012,Florida,75.6
+2013,Florida,76.1
+2014,Florida,77.9
+2015,Florida,80.7
+2016,Florida,82.3
+2017,Florida,86.3
+2018,Florida,87.2
+2019,Florida,90.2
+2010,Georgia,67.0
+2011,Georgia,70.0
+2012,Georgia,71.7
+2013,Georgia,72.5
+2014,Georgia,78.8
+2015,Georgia,79.4
+2016,Georgia,80.6
+2017,Georgia,81.6
+2018,Georgia,82.0
+2019,Georgia,83.8
+2010,Hawaii,80.0
+2011,Hawaii,81.0
+2012,Hawaii,82.4
+2013,Hawaii,81.8
+2014,Hawaii,81.6
+2015,Hawaii,82.7
+2016,Hawaii,82.7
+2017,Hawaii,84.5
+2018,Hawaii,85.2
+2019,Hawaii,86.3
+2013,Idaho,77.3
+2014,Idaho,78.9
+2015,Idaho,79.7
+2016,Idaho,79.7
+2017,Idaho,80.7
+2018,Idaho,80.8
+2019,Idaho,82.2
+2010,Illinois,84.0
+2011,Illinois,82.0
+2012,Illinois,83.2
+2013,Illinois,86.0
+2014,Illinois,85.6
+2015,Illinois,85.5
+2016,Illinois,87.0
+2017,Illinois,86.5
+2018,Illinois,86.2
+2010,Indiana,86.0
+2011,Indiana,86.0
+2012,Indiana,87.0
+2013,Indiana,87.9
+2014,Indiana,87.1
+2015,Indiana,86.8
+2016,Indiana,83.8
+2017,Indiana,88.1
+2018,Indiana,87.2
+2019,Indiana,90.9
+2010,Iowa,88.0
+2011,Iowa,89.0
+2012,Iowa,89.7
+2013,Iowa,90.5
+2014,Iowa,90.8
+2015,Iowa,91.3
+2016,Iowa,91.0
+2017,Iowa,91.4
+2018,Iowa,91.6
+2019,Iowa,91.8
+2010,Kansas,83.0
+2011,Kansas,85.0
+2012,Kansas,85.7
+2013,Kansas,85.7
+2014,Kansas,85.7
+2015,Kansas,85.7
+2016,Kansas,86.5
+2017,Kansas,87.2
+2018,Kansas,87.2
+2019,Kansas,88.2
+2012,Kentucky,86.1
+2013,Kentucky,87.5
+2014,Kentucky,88.0
+2015,Kentucky,88.6
+2016,Kentucky,89.7
+2017,Kentucky,90.3
+2018,Kentucky,90.6
+2019,Kentucky,91.1
+2010,Louisiana,71.0
+2011,Louisiana,72.0
+2012,Louisiana,73.5
+2013,Louisiana,74.6
+2014,Louisiana,77.5
+2015,Louisiana,78.6
+2016,Louisiana,78.1
+2017,Louisiana,81.4
+2018,Louisiana,80.1
+2019,Louisiana,82.9
+2010,Maine,84.0
+2011,Maine,85.0
+2012,Maine,86.4
+2013,Maine,86.5
+2014,Maine,87.5
+2015,Maine,87.0
+2016,Maine,86.9
+2017,Maine,86.7
+2018,Maine,87.4
+2019,Maine,87.4
+2010,Maryland,83.0
+2011,Maryland,84.0
+2012,Maryland,85.0
+2013,Maryland,86.4
+2014,Maryland,87.0
+2015,Maryland,87.6
+2016,Maryland,87.7
+2017,Maryland,87.1
+2018,Maryland,86.9
+2019,Maryland,86.8
+2010,Massachusetts,83.0
+2011,Massachusetts,85.0
+2012,Massachusetts,85.0
+2013,Massachusetts,86.1
+2014,Massachusetts,87.3
+2015,Massachusetts,87.5
+2016,Massachusetts,88.3
+2017,Massachusetts,87.8
+2018,Massachusetts,88.0
+2019,Massachusetts,89.0
+2010,Michigan,74.0
+2011,Michigan,76.0
+2012,Michigan,77.0
+2013,Michigan,78.6
+2014,Michigan,79.8
+2015,Michigan,79.7
+2016,Michigan,80.2
+2017,Michigan,80.6
+2018,Michigan,81.4
+2019,Michigan,82.1
+2010,Minnesota,77.0
+2011,Minnesota,78.0
+2012,Minnesota,79.8
+2013,Minnesota,81.2
+2014,Minnesota,81.9
+2015,Minnesota,82.2
+2016,Minnesota,82.7
+2017,Minnesota,83.2
+2018,Minnesota,83.7
+2019,Minnesota,83.8
+2010,Mississippi,75.0
+2011,Mississippi,75.0
+2012,Mississippi,75.5
+2013,Mississippi,77.6
+2014,Mississippi,80.80000000000001
+2015,Mississippi,82.3
+2016,Mississippi,83.0
+2017,Mississippi,84.0
+2018,Mississippi,85.0
+2019,Mississippi,87.7
+2010,Missouri,81.0
+2011,Missouri,84.0
+2012,Missouri,85.7
+2013,Missouri,87.3
+2014,Missouri,87.8
+2015,Missouri,89.0
+2016,Missouri,88.3
+2017,Missouri,89.2
+2018,Missouri,89.7
+2019,Missouri,89.5
+2010,Montana,82.0
+2011,Montana,84.0
+2012,Montana,84.4
+2013,Montana,85.4
+2014,Montana,86.0
+2015,Montana,85.6
+2016,Montana,85.8
+2017,Montana,86.4
+2018,Montana,86.6
+2019,Montana,85.9
+2010,Nebraska,86.0
+2011,Nebraska,88.0
+2012,Nebraska,88.5
+2013,Nebraska,89.7
+2014,Nebraska,88.9
+2015,Nebraska,89.3
+2016,Nebraska,89.1
+2017,Nebraska,88.7
+2018,Nebraska,88.4
+2019,Nebraska,87.5
+2010,Nevada,62.0
+2011,Nevada,63.0
+2012,Nevada,70.7
+2013,Nevada,70.0
+2014,Nevada,71.3
+2015,Nevada,73.6
+2016,Nevada,80.9
+2017,Nevada,83.2
+2018,Nevada,84.1
+2019,Nevada,82.6
+2010,New Hampshire,86.0
+2011,New Hampshire,86.0
+2012,New Hampshire,87.3
+2013,New Hampshire,88.1
+2014,New Hampshire,88.1
+2015,New Hampshire,88.2
+2016,New Hampshire,88.9
+2017,New Hampshire,88.8
+2018,New Hampshire,88.4
+2019,New Hampshire,88.1
+2010,New Jersey,83.0
+2011,New Jersey,86.0
+2012,New Jersey,87.5
+2013,New Jersey,88.6
+2014,New Jersey,89.7
+2015,New Jersey,90.1
+2016,New Jersey,90.5
+2017,New Jersey,90.9
+2018,New Jersey,90.6
+2019,New Jersey,91.0
+2010,New Mexico,63.0
+2011,New Mexico,70.0
+2012,New Mexico,70.3
+2013,New Mexico,68.5
+2014,New Mexico,68.6
+2015,New Mexico,71.0
+2016,New Mexico,71.1
+2017,New Mexico,73.9
+2018,New Mexico,75.1
+2019,New Mexico,76.9
+2010,New York,77.0
+2011,New York,77.0
+2012,New York,76.8
+2013,New York,77.8
+2014,New York,79.2
+2015,New York,80.4
+2016,New York,81.8
+2017,New York,82.3
+2018,New York,82.8
+2019,New York,83.5
+2010,North Carolina,78.0
+2011,North Carolina,80.0
+2012,North Carolina,82.5
+2013,North Carolina,83.9
+2014,North Carolina,85.6
+2015,North Carolina,85.9
+2016,North Carolina,86.6
+2017,North Carolina,86.3
+2018,North Carolina,86.5
+2019,North Carolina,87.6
+2010,North Dakota,86.0
+2011,North Dakota,87.0
+2012,North Dakota,87.5
+2013,North Dakota,87.2
+2014,North Dakota,86.6
+2015,North Dakota,87.5
+2016,North Dakota,87.2
+2017,North Dakota,88.1
+2018,North Dakota,88.3
+2019,North Dakota,89.0
+2010,Ohio,80.0
+2011,Ohio,81.0
+2012,Ohio,82.2
+2013,Ohio,81.8
+2014,Ohio,80.7
+2015,Ohio,83.5
+2016,Ohio,84.2
+2017,Ohio,82.1
+2018,Ohio,82.0
+2019,Ohio,84.4
+2012,Oklahoma,84.8
+2013,Oklahoma,82.7
+2014,Oklahoma,82.5
+2015,Oklahoma,81.6
+2016,Oklahoma,82.6
+2017,Oklahoma,81.8
+2018,Oklahoma,84.9
+2019,Oklahoma,80.8
+2010,Oregon,68.0
+2011,Oregon,68.0
+2012,Oregon,68.7
+2013,Oregon,72.0
+2014,Oregon,73.8
+2015,Oregon,74.8
+2016,Oregon,76.7
+2017,Oregon,78.7
+2018,Oregon,80.0
+2019,Oregon,82.6
+2010,Pennsylvania,83.0
+2011,Pennsylvania,84.0
+2012,Pennsylvania,85.5
+2013,Pennsylvania,85.3
+2014,Pennsylvania,84.8
+2015,Pennsylvania,86.1
+2016,Pennsylvania,86.6
+2017,Pennsylvania,85.9
+2018,Pennsylvania,86.5
+2019,Pennsylvania,87.4
+2010,Rhode Island,77.0
+2011,Rhode Island,77.0
+2012,Rhode Island,79.7
+2013,Rhode Island,80.8
+2014,Rhode Island,83.2
+2015,Rhode Island,82.8
+2016,Rhode Island,84.1
+2017,Rhode Island,84.0
+2018,Rhode Island,83.9
+2019,Rhode Island,83.6
+2010,South Carolina,74.0
+2011,South Carolina,75.0
+2012,South Carolina,77.6
+2013,South Carolina,80.1
+2014,South Carolina,80.3
+2015,South Carolina,82.6
+2016,South Carolina,83.6
+2017,South Carolina,81.0
+2018,South Carolina,81.1
+2019,South Carolina,82.2
+2010,South Dakota,83.0
+2011,South Dakota,83.0
+2012,South Dakota,82.7
+2013,South Dakota,82.7
+2014,South Dakota,83.9
+2015,South Dakota,83.9
+2016,South Dakota,83.7
+2017,South Dakota,84.1
+2018,South Dakota,84.1
+2019,South Dakota,84.2
+2010,Tennessee,86.0
+2011,Tennessee,87.0
+2012,Tennessee,86.3
+2013,Tennessee,87.2
+2014,Tennessee,87.9
+2015,Tennessee,88.5
+2016,Tennessee,89.8
+2017,Tennessee,90.0
+2018,Tennessee,90.5
+2019,Tennessee,90.4
+2010,Texas,86.0
+2011,Texas,88.0
+2012,Texas,88.0
+2013,Texas,88.3
+2014,Texas,89.0
+2015,Texas,89.1
+2016,Texas,89.7
+2017,Texas,90.0
+2018,Texas,90.0
+2010,Utah,76.0
+2011,Utah,80.0
+2012,Utah,83.0
+2013,Utah,83.9
+2014,Utah,84.8
+2015,Utah,85.2
+2016,Utah,86.0
+2017,Utah,87.0
+2018,Utah,87.4
+2019,Utah,88.2
+2010,Vermont,87.0
+2011,Vermont,88.0
+2012,Vermont,86.6
+2013,Vermont,87.8
+2014,Vermont,87.7
+2015,Vermont,87.7
+2016,Vermont,89.1
+2017,Vermont,85.1
+2018,Vermont,84.5
+2019,Vermont,83.1
+2010,Virginia,82.0
+2011,Virginia,83.0
+2012,Virginia,84.5
+2013,Virginia,85.3
+2014,Virginia,85.7
+2015,Virginia,86.7
+2016,Virginia,86.9
+2017,Virginia,87.5
+2018,Virginia,87.5
+2019,Virginia,88.8
+2010,Washington,76.0
+2011,Washington,77.0
+2012,Washington,76.4
+2013,Washington,78.2
+2014,Washington,78.2
+2015,Washington,79.7
+2016,Washington,79.4
+2017,Washington,86.7
+2018,Washington,81.1
+2019,Washington,83.0
+2010,West Virginia,78.0
+2011,West Virginia,79.0
+2012,West Virginia,81.4
+2013,West Virginia,84.5
+2014,West Virginia,86.5
+2015,West Virginia,89.8
+2016,West Virginia,89.4
+2017,West Virginia,90.2
+2018,West Virginia,91.3
+2019,West Virginia,92.1
+2010,Wisconsin,87.0
+2011,Wisconsin,88.0
+2012,Wisconsin,88.0
+2013,Wisconsin,88.6
+2014,Wisconsin,88.4
+2015,Wisconsin,88.2
+2016,Wisconsin,88.6
+2017,Wisconsin,89.7
+2018,Wisconsin,90.1
+2019,Wisconsin,90.4
+2010,Wyoming,80.0
+2011,Wyoming,79.0
+2012,Wyoming,77.0
+2013,Wyoming,78.6
+2014,Wyoming,79.3
+2015,Wyoming,80.0
+2016,Wyoming,86.2
+2017,Wyoming,81.7
+2018,Wyoming,82.1
+2019,Wyoming,82.3
