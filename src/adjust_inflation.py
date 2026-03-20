@@ -3,10 +3,10 @@ adjust_inflation.py
 -------------------
 Adjusts monetary values to constant 2019 dollars using CPI-U data.
 
-Input file (from data/clean/):
+Input file (from data/processed/):
   - merged_panel.csv
 
-Output file (to data/clean/):
+Output file (to data/processed/):
   - final_panel.csv - Analysis-ready dataset with inflation-adjusted values
 
 The script uses official BLS CPI-U annual averages to convert:
@@ -26,10 +26,10 @@ SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 
 # Input file
-INPUT_FILE = PROJECT_ROOT / "data" / "clean" / "merged_panel.csv"
+INPUT_FILE = PROJECT_ROOT / "data" / "processed" / "merged_panel.csv"
 
 # Output file
-OUTPUT_FILE = PROJECT_ROOT / "data" / "clean" / "final_panel.csv"
+OUTPUT_FILE = PROJECT_ROOT / "data" / "processed" / "final_panel.csv"
 
 # Base year for inflation adjustment
 BASE_YEAR = 2019
@@ -178,16 +178,16 @@ def main():
     print("""
 DATA PREPARATION COMPLETE!
 
-Your final_panel.csv is ready for analysis with:
+final_panel.csv is ready for analysis with:
   - 500 state-year observations (9 with missing graduation_rate)
   - All monetary values in constant 2019 dollars
-  - Clean, merged data from Census ACS and NCES
+  - Processed, merged data from Census ACS and NCES
 
 NEXT STEPS:
-1. Begin exploratory data analysis (EDA)
-2. Check correlations and multicollinearity (VIF)
-3. Create visualizations
-4. Run fixed effects regression analysis
+1. Begin exploratory data analysis (EDA).
+2. Check correlations and multicollinearity (VIF).
+3. Create visualizations.
+4. Run fixed effects regression analysis.
 """)
 
 

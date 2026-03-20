@@ -8,11 +8,11 @@ Input files (from data/raw/):
   - nces_graduation.csv
   - nces_spending.csv
 
-Output file (to data/clean/):
+Output file (to data/processed/):
   - merged_panel.csv - Combined dataset (not yet inflation-adjusted)
 
 The script performs a series of left joins to combine all data sources,
-preserving all state-year combinations from the base ACS dataset.
+preserving the state-year combinations from the base ACS dataset.
 """
 
 import pandas as pd
@@ -30,7 +30,7 @@ GRADUATION_FILE = PROJECT_ROOT / "data" / "raw" / "nces_graduation.csv"
 SPENDING_FILE = PROJECT_ROOT / "data" / "raw" / "nces_spending.csv"
 
 # Output file
-OUTPUT_DIR = PROJECT_ROOT / "data" / "clean"
+OUTPUT_DIR = PROJECT_ROOT / "data" / "processed"
 OUTPUT_FILE = OUTPUT_DIR / "merged_panel.csv"
 
 # ── Main Processing ───────────────────────────────────────────────────────────
