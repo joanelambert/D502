@@ -1,7 +1,7 @@
 """
 pull_acs_data.py
 ----------------
-Pulls ACAmerivan Community Survey 1-year estimates for all 50 US states, 2010-2019,
+Pulls American Community Survey 1-year estimates for all 50 US states, 2010-2019,
 for the following variables:
   - Median household income
   - Poverty rate: % of people below poverty level
@@ -13,11 +13,11 @@ import requests
 import pandas as pd
 import time
 
-# ── Configuration ─────────────────────────────────────────────────────────────
+# Configuration
 
 API_KEY = "4f995e6a9a94315d0aa92eca682e2dfaf1838145"
 
-# Years to pull — 2010-2019 (pre-COVID period with consistent ACGR methodology)
+# Years to pull
 YEARS = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
 
 # Variables to request from the ACS API
@@ -29,7 +29,7 @@ VARIABLES = "NAME,B19013_001E,B17001_001E,B17001_002E"
 
 BASE_URL = "https://api.census.gov/data/{year}/acs/acs1"
 
-# ── Helper Functions ──────────────────────────────────────────────────────────
+# Helper Functions
 
 def fetch_acs_year(year: int, api_key: str) -> pd.DataFrame:
     """
@@ -41,7 +41,7 @@ def fetch_acs_year(year: int, api_key: str) -> pd.DataFrame:
     params = {
         "get": VARIABLES,
         "for": "state:*",   # All states
-        "key": api_key
+        "key": API_KEY
     }
 
     response = requests.get(url, params=params, timeout=30)
@@ -78,7 +78,7 @@ def fetch_acs_year(year: int, api_key: str) -> pd.DataFrame:
     # Calculate poverty rate as a percentage
     df["poverty_rate"] = (df["poverty_below"] / df["poverty_population"] * 100).round(2)
 
-    # Flag missing or suppressed income values (Census uses -666666666 for N/A)
+    # Flag missing or suppressed income values
     df.loc[df["median_hh_income"] < 0, "median_hh_income"] = None
 
     return df[["year", "state_fips", "state_name", "median_hh_income",
@@ -87,9 +87,8 @@ def fetch_acs_year(year: int, api_key: str) -> pd.DataFrame:
 
 def filter_50_states(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Remove non-state geographies. FIPS codes 01-56 cover states,
-    but we exclude DC (11), PR (72), and other territories.
-    The 50 state FIPS codes are listed explicitly below.
+    Retain only the 50 US states based on their FIPS codes. 
+    This excludes DC (11), Puerto Rico (72), and other territories.
     """
     fifty_state_fips = {
         "01","02","04","05","06","08","09","10",
@@ -103,7 +102,7 @@ def filter_50_states(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["state_fips"].isin(fifty_state_fips)].copy()
 
 
-# ── Main Pull ─────────────────────────────────────────────────────────────────
+# Main Pull
 
 def main():
 
@@ -130,32 +129,20 @@ def main():
     # Combine all years into a single panel dataset
     panel = pd.concat(all_years, ignore_index=True)
 
-    # Sort by state and year for readability
+    # Sort by state and year
     panel = panel.sort_values(["state_name", "year"]).reset_index(drop=True)
 
-    # ── Summary ───────────────────────────────────────────────────────────────
+    # Summary
     print(f"\nDataset shape: {panel.shape[0]} rows × {panel.shape[1]} columns")
     print(f"Years covered: {sorted(panel['year'].unique())}")
     print(f"States covered: {panel['state_name'].nunique()}")
     print(f"\nMissing values:\n{panel.isnull().sum()}")
     print(f"\nSample (first 5 rows):\n{panel.head()}")
 
-    # ── Save ──────────────────────────────────────────────────────────────────
+    # Save the file
     output_file = "acs_state_panel.csv"
     panel.to_csv(output_file, index=False)
     print(f"\nSaved to: {output_file}")
-
-    # ── Column descriptions ───────────────────────────────────────────────────
-    print("""
-Column Descriptions:
-  year               — Survey year (2010–2019)
-  state_fips         — State FIPS code
-  state_name         — State name
-  median_hh_income   — Median household income (inflation-adjusted dollars)
-  poverty_population — Total population for whom poverty status is determined
-  poverty_below      — Number of people below the poverty line
-  poverty_rate       — Percentage of population below poverty line
-""")
 
 
 if __name__ == "__main__":
