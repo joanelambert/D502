@@ -4,59 +4,56 @@ process_nces_data.py
 Processes NCES Excel files to extract graduation rates and per-pupil expenditure
 data for all 50 states, 2010-2019.
 
-Input files (must be in data/raw/):
+Input files:
   - tabn219.46.xls - Table 219.46: ACGR by state
   - tabn236.65.xlsx - Table 236.65: Current expenditure per pupil
 
-Output files (saved to data/raw/):
+Output files:
   - nces_graduation.csv - Clean graduation rate data
   - nces_spending.csv - Clean per-pupil spending data
-
-Note: NCES Excel files often have multiple header rows and footnotes.
-This script is designed to handle the standard NCES table format.
 """
 
 import pandas as pd
-import os
-from pathlib import Path
 
-# ── Configuration ─────────────────────────────────────────────────────────────
+# CONFIGURATION
 
-# Get the directory where this script is located
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent  # Assumes script is in src/ folder
+# Input files
+GRADUATION_FILE = "../data/raw/tabn219.46.xls"
+SPENDING_FILE = "../data/raw/tabn236.65.xlsx"
 
-# File paths - adjust these if your filenames are slightly different
-GRADUATION_FILE = PROJECT_ROOT / "data" / "raw" / "tabn219.46.xls"
-SPENDING_FILE = PROJECT_ROOT / "data" / "raw" / "tabn236.65.xlsx"
+# Output files
+GRAD_OUTPUT = "../data/raw/nces_graduation.csv"
+SPEND_OUTPUT = "../data/raw/nces_spending.csv"
 
-# Years to extract
-YEARS = list(range(2010, 2020))  # 2010-2019
+# Years to extract (2010-2019)
+YEARS = list(range(2010, 2020))
 
-# ── Helper Functions ──────────────────────────────────────────────────────────
+# HELPER FUNCTIONS
 
 def process_graduation_data(filepath: str) -> pd.DataFrame:
     """
     Process NCES Table 219.46 - ACGR by state.
     
     The table has:
-    - Years in row 3 (0-indexed row 2) in merged cells
-    - Each year label (like "2010-11") spans 2 columns
-    - Data starts around row 6
+    - Header information in rows 2-3 (rows 1-2 in 0-indexed)
+    - Data starts at row 4 (row 3 in 0-indexed)
+    - State names in the first column with possible footnote markers
+    - Graduation rates with formatting (footnotes, special characters)
+    - May contain non-state rows that need to be filtered out
+    - Year columns may have different formats (e.g., "2010-11", "2010- 11", "2010-2011")
     """
-    print(f"Processing graduation data from: {filepath}")
     
-    # First, read rows 2 and 4 (0-indexed) to get the year headers from multiple rows
+    # Get the year headers from worksheet rows 3 and 5 (0-indexed)
     df_header = pd.read_excel(filepath, header=None, nrows=5)
-    year_row_3 = df_header.iloc[2]  # Row 3 (0-indexed row 2)
-    year_row_5 = df_header.iloc[4]  # Row 5 (0-indexed row 4)
+    year_row_3 = df_header.iloc[2]
+    year_row_5 = df_header.iloc[4]
     
     print("\nYear row 3:")
     print(year_row_3)
     print("\nYear row 5:")
     print(year_row_5)
     
-    # Combine the two rows - use row 5 where it has values, otherwise use row 3
+    # Fill missing values from row 5 with values from row 3
     year_row_combined = year_row_5.fillna(year_row_3)
     
     print("\nCombined year row:")
@@ -68,14 +65,13 @@ def process_graduation_data(filepath: str) -> pd.DataFrame:
     print("\nYear row after forward-fill:")
     print(year_row_filled)
     
-    # Now read the actual data starting from row 6 (0-indexed row 5)
+    # Read the data starting from row 6
     df = pd.read_excel(filepath, header=None, skiprows=5)
     
-    print("\nFirst few rows of data:")
+    print("\nFirst five rows of data:")
     print(df.head())
     
-    # Set the forward-filled year row as column names
-    # Make column names unique by adding a suffix to duplicates
+    # Name the year columns, add a suffix to duplicates
     cols = year_row_filled.tolist()
     seen = {}
     unique_cols = []
@@ -91,7 +87,7 @@ def process_graduation_data(filepath: str) -> pd.DataFrame:
     
     print(f"\nColumns after setting year headers: {df.columns.tolist()[:15]}")
     
-    # First column should be state names
+    # Put state names in the first column
     state_col = df.columns[0]
     
     grad_data = []
@@ -103,7 +99,7 @@ def process_graduation_data(filepath: str) -> pd.DataFrame:
         if pd.isna(state_name) or not isinstance(state_name, str):
             continue
         
-        # Clean state name - remove footnote markers like \10\
+        # Remove footnote markers from state names
         state_name_clean = state_name.strip()
         if '\\' in state_name_clean:
             state_name_clean = state_name_clean.split('\\')[0].strip()
@@ -113,15 +109,15 @@ def process_graduation_data(filepath: str) -> pd.DataFrame:
             
         # Extract data for each year 2010-2019
         for year in YEARS:
-            # Try different possible formats for year labels
+            # Account for different year label formats
             possible_year_labels = [
                 f"{year}-{str(year+1)[-2:]}",      # "2010-11"
-                f"{year}- {str(year+1)[-2:]}",     # "2010- 11" (with space)
-                f"{year} - {str(year+1)[-2:]}",    # "2010 - 11" (with spaces)
-                f"{year}-{year+1}",                 # "2010-2011"
+                f"{year}- {str(year+1)[-2:]}",     # "2010- 11"
+                f"{year} - {str(year+1)[-2:]}",    # "2010 - 11"
+                f"{year}-{year+1}",                # "2010-2011"
             ]
             
-            # Also search for any column containing the year
+            # Locate other year columns
             for col in df.columns:
                 if pd.notna(col) and str(year) in str(col) and '-' in str(col):
                     if col not in possible_year_labels:
@@ -134,7 +130,7 @@ def process_graduation_data(filepath: str) -> pd.DataFrame:
                     
                     if pd.notna(grad_rate):
                         try:
-                            # Clean the value
+                            # Clean the year value
                             grad_rate_str = str(grad_rate).replace('†', '').replace('‡', '').replace('\\', '').replace('---', '').strip()
                             if grad_rate_str and grad_rate_str != '':
                                 grad_rate_clean = float(grad_rate_str)
@@ -155,14 +151,17 @@ def process_graduation_data(filepath: str) -> pd.DataFrame:
 def process_spending_data(filepath: str) -> pd.DataFrame:
     """
     Process NCES Table 236.65 - Current expenditure per pupil by state.
-    
-    The table has:
-    - Header information in rows 2-3 (rows 1-2 in 0-indexed)
-    - Data starts at row 4 (row 3 in 0-indexed)
+        The table has:
+        - Years in row 3 (0-indexed row 2) in merged cells
+        - Data starts around row 6
+        - State names in the first column with possible footnote markers
+        - Per-pupil spending values with formatting (commas, dollar signs, footnotes)
+        - May contain non-state rows that need to be filtered out
+        - Year columns may have different formats (e.g., "2010-11", "2010- 11", "2010-2011")
     """
     print(f"\nProcessing spending data from: {filepath}")
     
-    # Read Excel file - skip first 2 rows of headers, use row 3 (index 2) as column names
+    # Use row 3 as column names
     df = pd.read_excel(filepath, header=2)
     
     print("\nFirst few rows of spending data:")
@@ -180,7 +179,7 @@ def process_spending_data(filepath: str) -> pd.DataFrame:
         if pd.isna(state_name) or not isinstance(state_name, str):
             continue
         
-        # Clean state name - remove footnote markers
+        # CRemove footnote markers from state names
         state_name_clean = state_name.strip()
         if '\\' in state_name_clean:
             state_name_clean = state_name_clean.split('\\')[0].strip()
@@ -189,8 +188,7 @@ def process_spending_data(filepath: str) -> pd.DataFrame:
             continue
             
         for year in YEARS:
-            # NCES uses school year format - spending for 2010 might be labeled "2009-10" or "2010-11"
-            # We'll look for columns containing the year
+            # Locate the year column
             matching_cols = [col for col in df.columns if str(year) in str(col)]
             
             if matching_cols:
@@ -217,9 +215,8 @@ def process_spending_data(filepath: str) -> pd.DataFrame:
 def standardize_state_names(df: pd.DataFrame) -> pd.DataFrame:
     """
     Standardize state names to match Census data format.
-    Filter to only the 50 states (exclude DC, territories, and aggregates).
     """
-    # List of the 50 US states (no DC, no territories)
+    # List of the 50 US states
     fifty_states = {
         'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
         'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho',
@@ -235,10 +232,10 @@ def standardize_state_names(df: pd.DataFrame) -> pd.DataFrame:
     
     df = df[df['state_name'].notna()].copy()
     
-    # Clean state names - remove footnote markers and extra whitespace
+    # Remove extra whitespace from state names
     df['state_name'] = df['state_name'].str.strip()
     
-    # Remove anything after backslash (footnote markers like \10\)
+    # Remove footnote markers from state names
     df['state_name'] = df['state_name'].str.split('\\').str[0].str.strip()
     
     # Filter to only the 50 states
@@ -247,19 +244,9 @@ def standardize_state_names(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# ── Main Processing ───────────────────────────────────────────────────────────
+# MAIN PROCESSING FUNCTION
 
 def main():
-    # Check if files exist
-    if not os.path.exists(GRADUATION_FILE):
-        print(f"ERROR: Graduation file not found: {GRADUATION_FILE}")
-        print("Please ensure the NCES Table 219.46 Excel file is in data/raw/")
-        return
-    
-    if not os.path.exists(SPENDING_FILE):
-        print(f"ERROR: Spending file not found: {SPENDING_FILE}")
-        print("Please ensure the NCES Table 236.65 Excel file is in data/raw/")
-        return
     
     # Process graduation data
     grad_df = process_graduation_data(GRADUATION_FILE)
@@ -269,9 +256,9 @@ def main():
     spend_df = process_spending_data(SPENDING_FILE)
     spend_df = standardize_state_names(spend_df)
     
-    # ── Summary ───────────────────────────────────────────────────────────────
+    # Summarize the datasets
     print("\n" + "="*70)
-    print("GRADUATION DATA SUMMARY")
+    print("Graduation Data Summary")
     print("="*70)
     print(f"Shape: {grad_df.shape}")
     print(f"Years: {sorted(grad_df['year'].unique())}")
@@ -280,7 +267,7 @@ def main():
     print(f"\nSample:\n{grad_df.head(10)}")
     
     print("\n" + "="*70)
-    print("SPENDING DATA SUMMARY")
+    print("Spending Data Summary")
     print("="*70)
     print(f"Shape: {spend_df.shape}")
     print(f"Years: {sorted(spend_df['year'].unique())}")
@@ -288,24 +275,12 @@ def main():
     print(f"\nMissing values:\n{spend_df.isnull().sum()}")
     print(f"\nSample:\n{spend_df.head(10)}")
     
-    # ── Save ──────────────────────────────────────────────────────────────────
-    grad_output = PROJECT_ROOT / "data" / "raw" / "nces_graduation.csv"
-    spend_output = PROJECT_ROOT / "data" / "raw" / "nces_spending.csv"
-    
-    grad_df.to_csv(grad_output, index=False)
-    spend_df.to_csv(spend_output, index=False)
-    
-    print(f"\n✓ Saved graduation data to: {grad_output}")
-    print(f"✓ Saved spending data to: {spend_output}")
-    
-    print("""
-NOTE: If the output looks incorrect or incomplete, you may need to adjust:
-1. The header row number (currently set to 4, try 3 or 5)
-2. The year column matching logic
-3. State name filtering
+    # Save the output files
+    grad_df.to_csv(GRAD_OUTPUT, index=False)
+    print(f"\nSaved graduation data to: {GRAD_OUTPUT}")
 
-Check the printed column names and first few rows above to diagnose issues.
-""")
+    spend_df.to_csv(SPEND_OUTPUT, index=False)
+    print(f"Saved spending data to: {SPEND_OUTPUT}")
 
 
 if __name__ == "__main__":

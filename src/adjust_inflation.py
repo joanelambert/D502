@@ -17,19 +17,14 @@ Formula: value_2019 = value_year × (CPI_2019 / CPI_year)
 """
 
 import pandas as pd
-from pathlib import Path
 
-# ── Configuration ─────────────────────────────────────────────────────────────
-
-# Get paths
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+# CONFIGURATION
 
 # Input file
-INPUT_FILE = PROJECT_ROOT / "data" / "processed" / "merged_panel.csv"
+INPUT_FILE = "../data/processed/merged_panel.csv"
 
 # Output file
-OUTPUT_FILE = PROJECT_ROOT / "data" / "processed" / "final_panel.csv"
+OUTPUT_FILE = "../data/processed/final_panel.csv"
 
 # Base year for inflation adjustment
 BASE_YEAR = 2019
@@ -47,10 +42,10 @@ CPI_DATA = {
     2016: 240.007,
     2017: 245.120,
     2018: 251.107,
-    2019: 255.657,  # Base year
+    2019: 255.657,
 }
 
-# ── Helper Functions ──────────────────────────────────────────────────────────
+# HELPER FUNCTIONS
 
 def adjust_for_inflation(value: float, year: int, base_year: int = BASE_YEAR) -> float:
     """
@@ -77,7 +72,7 @@ def adjust_for_inflation(value: float, year: int, base_year: int = BASE_YEAR) ->
     return round(adjusted_value, 2)
 
 
-# ── Main Processing ───────────────────────────────────────────────────────────
+# MAIN PROCESSING FUNCTION
 
 def main():
     print("="*70)
@@ -112,9 +107,9 @@ def main():
         axis=1
     )
     
-    print("  ✓ Created inflation-adjusted columns:")
-    print("    - median_hh_income_2019")
-    print("    - per_pupil_spending_2019")
+    print("Created inflation-adjusted columns:")
+    print("- median_hh_income_2019")
+    print("- per_pupil_spending_2019")
     
     # Reorder columns for clarity
     print("\nReordering columns...")
@@ -134,9 +129,9 @@ def main():
     
     df = df[column_order]
     
-    # Summary statistics
+    # Summarize the dataset
     print("\n" + "="*70)
-    print("FINAL DATASET SUMMARY")
+    print("Inflation-Adjusted Dataset Summary")
     print("="*70)
     
     print(f"\nShape: {df.shape[0]} observations × {df.shape[1]} variables")
@@ -170,25 +165,7 @@ def main():
     
     # Save final dataset
     df.to_csv(OUTPUT_FILE, index=False)
-    
-    print(f"\n{'='*70}")
-    print(f"✓ Saved final dataset to: {OUTPUT_FILE}")
-    print(f"{'='*70}")
-    
-    print("""
-DATA PREPARATION COMPLETE!
-
-final_panel.csv is ready for analysis with:
-  - 500 state-year observations (9 with missing graduation_rate)
-  - All monetary values in constant 2019 dollars
-  - Processed, merged data from Census ACS and NCES
-
-NEXT STEPS:
-1. Begin exploratory data analysis (EDA).
-2. Check correlations and multicollinearity (VIF).
-3. Create visualizations.
-4. Run fixed effects regression analysis.
-""")
+    print(f"Saved final dataset to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ import requests
 import pandas as pd
 import time
 
-# Configuration
+# CONFIGURATION
 
 API_KEY = "4f995e6a9a94315d0aa92eca682e2dfaf1838145"
 
@@ -29,18 +29,19 @@ VARIABLES = "NAME,B19013_001E,B17001_001E,B17001_002E"
 
 BASE_URL = "https://api.census.gov/data/{year}/acs/acs1"
 
-# Helper Functions
+# Output file
+OUTPUT_FILE = "../data/raw/acs_state_panel.csv"
+
+# HELPER FUNCTIONS
 
 def fetch_acs_year(year: int, api_key: str) -> pd.DataFrame:
     """
-    Fetch ACS 1-year estimates for all states for a given year.
-    Returns a DataFrame with columns: year, state_fips, state_name,
-    median_hh_income, poverty_population, poverty_below, poverty_rate.
+    Fetch ACS data for all states for a given year.
     """
     url = BASE_URL.format(year=year)
     params = {
         "get": VARIABLES,
-        "for": "state:*",   # All states
+        "for": "state:*", 
         "key": API_KEY
     }
 
@@ -88,7 +89,6 @@ def fetch_acs_year(year: int, api_key: str) -> pd.DataFrame:
 def filter_50_states(df: pd.DataFrame) -> pd.DataFrame:
     """
     Retain only the 50 US states based on their FIPS codes. 
-    This excludes DC (11), Puerto Rico (72), and other territories.
     """
     fifty_state_fips = {
         "01","02","04","05","06","08","09","10",
@@ -102,7 +102,7 @@ def filter_50_states(df: pd.DataFrame) -> pd.DataFrame:
     return df[df["state_fips"].isin(fifty_state_fips)].copy()
 
 
-# Main Pull
+# MAIN PULLING FUNCTION
 
 def main():
 
@@ -117,14 +117,10 @@ def main():
 
         df_year = filter_50_states(df_year)
         all_years.append(df_year)
-        print(f"✓  {len(df_year)} states retrieved")
+        print(f"{len(df_year)} states retrieved")
 
         # Short pause between requests
         time.sleep(0.5)
-
-    if not all_years:
-        print("No data retrieved. Check your API key and internet connection.")
-        return
 
     # Combine all years into a single panel dataset
     panel = pd.concat(all_years, ignore_index=True)
@@ -132,17 +128,19 @@ def main():
     # Sort by state and year
     panel = panel.sort_values(["state_name", "year"]).reset_index(drop=True)
 
-    # Summary
+    # Summarize the dataset
+    print("\n" + "="*70)
+    print("Census Data Summary")
+    print("="*70)
     print(f"\nDataset shape: {panel.shape[0]} rows × {panel.shape[1]} columns")
     print(f"Years covered: {sorted(panel['year'].unique())}")
     print(f"States covered: {panel['state_name'].nunique()}")
     print(f"\nMissing values:\n{panel.isnull().sum()}")
     print(f"\nSample (first 5 rows):\n{panel.head()}")
 
-    # Save the file
-    output_file = "acs_state_panel.csv"
-    panel.to_csv(output_file, index=False)
-    print(f"\nSaved to: {output_file}")
+    # Save the output file
+    panel.to_csv(OUTPUT_FILE, index=False)
+    print(f"\nSaved census data to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

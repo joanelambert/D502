@@ -1,58 +1,51 @@
 """
 merge_datasets.py
 -----------------
-Merges ACS, NCES graduation, and NCES spending data into a single panel dataset.
+Merges ACS, NCES graduation, and NCES spending data into a single panel dataset,
+using left joins on state name and year. The existing ACS state panel is the base.
+The NCES datasets are merged into it to ensure that we have a complete panel of all 
+states and years, with NA values for any missing graduation rates or spending data. 
+This allows us to analyze the relationship between education spending, graduation rates, 
+and poverty without losing states or years from the panel. 
 
-Input files (from data/raw/):
+Input files:
   - acs_state_panel.csv
   - nces_graduation.csv
   - nces_spending.csv
 
-Output file (to data/processed/):
+Output file:
   - merged_panel.csv - Combined dataset (not yet inflation-adjusted)
-
-The script performs a series of left joins to combine all data sources,
-preserving the state-year combinations from the base ACS dataset.
 """
 
 import pandas as pd
-from pathlib import Path
 
-# ── Configuration ─────────────────────────────────────────────────────────────
-
-# Get paths
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+# CONFIGURATION
 
 # Input files
-ACS_FILE = PROJECT_ROOT / "data" / "raw" / "acs_state_panel.csv"
-GRADUATION_FILE = PROJECT_ROOT / "data" / "raw" / "nces_graduation.csv"
-SPENDING_FILE = PROJECT_ROOT / "data" / "raw" / "nces_spending.csv"
+ACS_FILE = "../data/raw/acs_state_panel.csv"
+GRADUATION_FILE = "../data/raw/nces_graduation.csv"
+SPENDING_FILE = "../data/raw/nces_spending.csv"
 
 # Output file
-OUTPUT_DIR = PROJECT_ROOT / "data" / "processed"
-OUTPUT_FILE = OUTPUT_DIR / "merged_panel.csv"
+OUTPUT_FILE = "../data/processed/merged_panel.csv"
 
-# ── Main Processing ───────────────────────────────────────────────────────────
+# MAIN PROCESSING FUNCTION
 
 def main():
-    print("="*70)
-    print("MERGING DATASETS")
-    print("="*70)
     
     # Load datasets
     print("\nLoading datasets...")
     acs_df = pd.read_csv(ACS_FILE)
-    print(f"  ✓ ACS data: {len(acs_df)} observations")
-    print(f"    Columns: {list(acs_df.columns)}")
+    print(f"ACS data: {len(acs_df)} observations")
+    print(f"Columns: {list(acs_df.columns)}")
     
     grad_df = pd.read_csv(GRADUATION_FILE)
-    print(f"  ✓ Graduation data: {len(grad_df)} observations")
-    print(f"    Columns: {list(grad_df.columns)}")
+    print(f"Graduation data: {len(grad_df)} observations")
+    print(f"Columns: {list(grad_df.columns)}")
     
     spend_df = pd.read_csv(SPENDING_FILE)
-    print(f"  ✓ Spending data: {len(spend_df)} observations")
-    print(f"    Columns: {list(spend_df.columns)}")
+    print(f"Spending data: {len(spend_df)} observations")
+    print(f"Columns: {list(spend_df.columns)}")
     
     # Verify merge keys
     print("\nVerifying merge keys (state_name and year)...")
@@ -97,11 +90,10 @@ def main():
     # Sort by state and year
     merged = merged.sort_values(['state_name', 'year']).reset_index(drop=True)
     
-    # Summary statistics
+    # Summarize the dataset
     print("\n" + "="*70)
-    print("MERGED DATASET SUMMARY")
+    print("Merged Dataset Summary")
     print("="*70)
-    
     print(f"\nShape: {merged.shape[0]} observations × {merged.shape[1]} variables")
     print(f"Years: {sorted(merged['year'].unique())}")
     print(f"States: {merged['state_name'].nunique()}")
@@ -120,25 +112,15 @@ def main():
     else:
         print("  No missing values!")
     
-    print(f"\nSample (first 10 rows):")
+    print("\n" + "="*70)
+    print("Merged Data Sample")
+    print("="*70)
     print(merged[['year', 'state_name', 'graduation_rate', 
                   'per_pupil_spending', 'poverty_rate']].head(10))
     
-    # Create output directory if needed
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    
-    # Save merged dataset
+    # Save the output file
     merged.to_csv(OUTPUT_FILE, index=False)
-    
-    print(f"\n{'='*70}")
-    print(f"✓ Saved merged dataset to: {OUTPUT_FILE}")
-    print(f"{'='*70}")
-    
-    print("""
-NEXT STEP:
-Run the inflation adjustment script (adjust_inflation.py) to convert
-monetary values to constant 2019 dollars.
-""")
+    print(f"Saved merged data to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
